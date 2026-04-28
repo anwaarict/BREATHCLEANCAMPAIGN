@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Breathe Clean — Anti Air Pollution Campaign</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --green:   #2d6a4f;
+    --green-l: #52b788;
+    --lime:    #95d5b2;
+    --sky:     #caf0f8;
+    --dark:    #0d1b2a;
+    --charcoal:#1b2d3e;
+    --mist:    #f0f7f4;
+    --accent:  #f4a261;
+    --smoke:   rgba(100,120,110,0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--mist);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(240,247,244,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(45,106,79,0.12);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 900;
+    color: var(--green);
+    letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: var(--charcoal);
+    font-size: 0.88rem; font-weight: 500; letter-spacing: 0.3px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--green); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; place-items: center;
+    position: relative;
+    background: linear-gradient(160deg, #0d1b2a 0%, #1b3a2f 55%, #2d6a4f 100%);
+    overflow: hidden;
+    padding-top: 80px;
+  }
+
+  /* animated particle leaves */
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(82,183,136,0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(149,213,178,0.1) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(202,240,248,0.05) 0%, transparent 60%);
+    animation: pulse 8s ease-in-out infinite alternate;
+  }
+  @keyframes pulse {
+    0%  { opacity: 0.7; transform: scale(1); }
+    100%{ opacity: 1;   transform: scale(1.05); }
+  }
+
+  /* floating circles */
+  .blob {
+    position: absolute; border-radius: 50%;
+    background: rgba(82,183,136,0.07);
+    animation: float 12s ease-in-out infinite;
+  }
+  .blob:nth-child(1){ width:320px;height:320px; top:-80px; left:-100px; animation-delay:0s;}
+  .blob:nth-child(2){ width:200px;height:200px; bottom:60px; right:80px; animation-delay:-4s;}
+  .blob:nth-child(3){ width:140px;height:140px; top:40%; left:70%; animation-delay:-8s;}
+  @keyframes float {
+    0%,100%{ transform: translateY(0) scale(1); }
+    50%    { transform: translateY(-30px) scale(1.05); }
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center; max-width: 820px; padding: 0 24px;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(149,213,178,0.15);
+    border: 1px solid rgba(149,213,178,0.3);
+    color: var(--lime);
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 18px; border-radius: 999px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 900; line-height: 1.0;
+    color: #fff;
+    animation: fadeUp 0.9s 0.15s ease both;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--lime);
+  }
+  .hero-sub {
+    font-size: 1.1rem; color: rgba(202,240,248,0.75);
+    max-width: 540px; margin: 24px auto 0;
+    line-height: 1.7; font-weight: 300;
+    animation: fadeUp 0.9s 0.3s ease both;
+  }
+  .hero-btn {
+    display: inline-block; margin-top: 44px;
+    background: var(--green-l); color: #fff;
+    font-size: 0.95rem; font-weight: 500;
+    padding: 14px 38px; border-radius: 999px;
+    text-decoration: none;
+    transition: background 0.25s, transform 0.2s;
+    animation: fadeUp 0.9s 0.45s ease both;
+  }
+  .hero-btn:hover { background: var(--lime); color: var(--dark); transform: translateY(-2px); }
+
+  /* scroll indicator */
+  .scroll-hint {
+    position: absolute; bottom: 32px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: rgba(255,255,255,0.35); font-size: 0.75rem; letter-spacing: 1px;
+    animation: fadeUp 1s 1s ease both;
+  }
+  .scroll-hint span { display: block; width: 1px; height: 40px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+    animation: scrollLine 2s ease-in-out infinite; }
+  @keyframes scrollLine { 0%,100%{ opacity:0.4; } 50%{ opacity:1; } }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 96px 48px; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--green-l); margin-bottom: 14px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700; line-height: 1.15;
+    color: var(--dark); max-width: 600px;
+  }
+  .section-title em { font-style: normal; color: var(--green); }
+
+  /* ── STATS BAND ── */
+  .stats-band {
+    background: var(--dark);
+    padding: 64px 48px;
+    display: flex; flex-wrap: wrap;
+    gap: 0; justify-content: space-around; align-items: center;
+  }
+  .stat-item {
+    text-align: center; padding: 20px 32px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem; font-weight: 900;
+    color: var(--lime); line-height: 1;
+    display: block;
+  }
+  .stat-label {
+    color: rgba(202,240,248,0.6);
+    font-size: 0.85rem; font-weight: 400;
+    margin-top: 8px; display: block;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── PROBLEM SECTION ── */
+  .problem-section {
+    background: #fff;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .problem-visual {
+    position: relative;
+    background: linear-gradient(135deg, #e8f4ec, #caf0f8);
+    border-radius: 24px; padding: 48px;
+    min-height: 380px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .smog-layers { width: 100%; }
+  .smog-bar {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 16px;
+  }
+  .smog-bar-label { font-size: 0.8rem; color: var(--charcoal); min-width: 60px; }
+  .smog-bar-track {
+    flex: 1; height: 14px; border-radius: 999px;
+    background: rgba(0,0,0,0.06); overflow: hidden;
+  }
+  .smog-bar-fill {
+    height: 100%; border-radius: 999px;
+    animation: barGrow 1.5s 0.5s ease both;
+  }
+  @keyframes barGrow { from { width: 0; } }
+  .bar-bad  { background: linear-gradient(to right, #e63946, #f4a261); }
+  .bar-ok   { background: linear-gradient(to right, #f4a261, #ffd166); }
+  .bar-good { background: linear-gradient(to right, #52b788, #95d5b2); }
+  .smog-bar-value { font-size: 0.8rem; font-weight: 500; color: var(--charcoal); min-width: 36px; text-align: right; }
+
+  .problem-text { padding-right: 16px; }
+  .problem-text .section-title { max-width: 480px; }
+  .problem-text p {
+    color: #556; font-size: 0.97rem; line-height: 1.8;
+    margin-top: 20px;
+  }
+  .callout {
+    margin-top: 28px; padding: 18px 22px;
+    background: var(--mist); border-left: 4px solid var(--green-l);
+    border-radius: 0 12px 12px 0;
+    font-size: 0.93rem; color: var(--charcoal); line-height: 1.7;
+  }
+
+  /* ── ACTIVITIES ── */
+  #activities {
+    background: var(--mist);
+    text-align: center;
+  }
+  #activities .section-title { margin: 0 auto 16px; text-align: center; max-width: 700px; }
+  #activities .section-label { text-align: center; }
+  .activities-sub {
+    color: #667; font-size: 0.97rem; max-width: 520px;
+    margin: 0 auto 64px; line-height: 1.7;
+  }
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px; max-width: 1100px; margin: 0 auto;
+  }
+  .act-card {
+    background: #fff; border-radius: 20px;
+    padding: 36px 28px;
+    text-align: left;
+    border: 1px solid rgba(45,106,79,0.1);
+    transition: transform 0.25s, box-shadow 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .act-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(to right, var(--green), var(--lime));
+  }
+  .act-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(45,106,79,0.12); }
+  .act-icon {
+    font-size: 2.4rem; margin-bottom: 20px; display: block;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1));
+  }
+  .act-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; font-weight: 700;
+    color: var(--dark); margin-bottom: 12px;
+  }
+  .act-card p { font-size: 0.9rem; color: #667; line-height: 1.7; }
+  .act-badge {
+    display: inline-block; margin-top: 18px;
+    background: var(--mist); color: var(--green);
+    font-size: 0.75rem; font-weight: 500;
+    padding: 5px 14px; border-radius: 999px;
+    border: 1px solid rgba(45,106,79,0.2);
+  }
+
+  /* ── IMPACT ── */
+  #impact {
+    background: linear-gradient(135deg, var(--dark) 0%, #1b3a2f 100%);
+    color: #fff;
+  }
+  #impact .section-title { color: #fff; }
+  #impact .section-label { color: var(--lime); }
+  .impact-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 40px; margin-top: 56px; max-width: 900px;
+  }
+  .impact-item {
+    display: flex; gap: 20px; align-items: flex-start;
+  }
+  .impact-icon-wrap {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: rgba(82,183,136,0.15);
+    border: 1px solid rgba(82,183,136,0.25);
+    display: grid; place-items: center;
+    font-size: 1.5rem; flex-shrink: 0;
+  }
+  .impact-item h4 {
+    font-weight: 500; font-size: 1rem;
+    color: var(--lime); margin-bottom: 6px;
+  }
+  .impact-item p { font-size: 0.88rem; color: rgba(202,240,248,0.65); line-height: 1.7; }
+
+  /* ── TEAM ── */
+  #team {
+    background: #fff;
+    text-align: center;
+  }
+  #team .section-title { margin: 0 auto 16px; text-align: center; }
+  #team .section-label { text-align: center; }
+  .team-sub {
+    color: #667; font-size: 0.97rem; max-width: 460px;
+    margin: 0 auto 56px; line-height: 1.7;
+  }
+  .team-grid {
+    display: flex; flex-wrap: wrap; gap: 24px;
+    justify-content: center; max-width: 900px; margin: 0 auto;
+  }
+  .team-card {
+    width: 160px; text-align: center;
+  }
+  .team-avatar {
+    width: 80px; height: 80px; border-radius: 50%;
+    margin: 0 auto 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, var(--mist), #d8f3dc);
+    border: 3px solid rgba(82,183,136,0.3);
+  }
+  .team-card h4 { font-size: 0.92rem; font-weight: 500; color: var(--dark); }
+  .team-card span { font-size: 0.78rem; color: #889; margin-top: 4px; display: block; }
+
+  /* ── CALL TO ACTION ── */
+  .cta-section {
+    background: var(--green);
+    text-align: center; padding: 96px 48px;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(149,213,178,0.2) 0%, transparent 60%),
+                radial-gradient(circle at 70% 50%, rgba(202,240,248,0.15) 0%, transparent 60%);
+  }
+  .cta-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900; color: #fff;
+    position: relative; z-index: 1;
+    max-width: 700px; margin: 0 auto;
+    line-height: 1.15;
+  }
+  .cta-section p {
+    color: rgba(255,255,255,0.75);
+    font-size: 1rem; margin-top: 20px;
+    position: relative; z-index: 1;
+    max-width: 480px; margin: 16px auto 0;
+  }
+  .cta-actions {
+    display: flex; gap: 16px; justify-content: center;
+    margin-top: 44px; position: relative; z-index: 1;
+    flex-wrap: wrap;
+  }
+  .btn-white {
+    background: #fff; color: var(--green);
+    font-weight: 600; font-size: 0.95rem;
+    padding: 14px 36px; border-radius: 999px;
+    border: none; cursor: pointer; text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+  .btn-outline {
+    background: transparent; color: #fff;
+    font-weight: 500; font-size: 0.95rem;
+    padding: 13px 36px; border-radius: 999px;
+    border: 2px solid rgba(255,255,255,0.5);
+    cursor: pointer; text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark); color: rgba(202,240,248,0.5);
+    text-align: center; padding: 36px 48px;
+    font-size: 0.85rem; line-height: 1.8;
+  }
+  footer strong { color: var(--lime); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 72px 24px; }
+    .problem-section { grid-template-columns: 1fr; gap: 40px; }
+    .impact-grid { grid-template-columns: 1fr; gap: 28px; }
+    .stats-band { padding: 48px 24px; }
+    .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 20px; }
+    .stat-item:last-child { border-bottom: none; }
+    .cta-section { padding: 72px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Breathe<span>Clean</span></div>
+  <ul class="nav-links">
+    <li><a href="#problem">The Issue</a></li>
+    <li><a href="#activities">Our Work</a></li>
+    <li><a href="#impact">Impact</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#join">Join Us</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="blob"></div>
+  <div class="blob"></div>
+  <div class="blob"></div>
+  <div class="hero-content">
+    <div class="hero-tag">🌿 Civics Project — Clean Air Initiative</div>
+    <h1>Fight for<br><em>Clean Air.</em><br>Fight for Life.</h1>
+    <p class="hero-sub">A student-led campaign to raise awareness about air pollution — through tree plantation, community outreach, and action on the ground.</p>
+    <a href="#activities" class="hero-btn">See Our Work ↓</a>
+  </div>
+  <div class="scroll-hint">
+    SCROLL<span></span>
+  </div>
+</section>
+
+<!-- STATS BAND -->
+<div class="stats-band">
+  <div class="stat-item">
+    <span class="stat-num">50+</span>
+    <span class="stat-label">Trees Planted</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">150+</span>
+    <span class="stat-label">Pamphlets Distributed</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">250+</span>
+    <span class="stat-label">People Reached</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">1</span>
+    <span class="stat-label">Community Campaign Run</span>
+  </div>
+</div>
+
+<!-- PROBLEM SECTION -->
+<section id="problem" style="background:#fff; padding: 96px 48px;">
+  <div class="problem-section">
+    <div class="problem-text">
+      <div class="section-label">Why It Matters</div>
+      <h2 class="section-title">Air pollution is a <em>silent crisis</em></h2>
+      <p>Every day, millions of people breathe air that exceeds safe pollution limits. Vehicle emissions, factory smoke, crop burning, and unchecked waste all contribute to a growing public health emergency.</p>
+      <p>In cities like Lahore, air quality regularly ranks among the worst in the world — causing respiratory disease, heart problems, and reducing life expectancy for entire communities.</p>
+      <div class="callout">
+        🫁 The World Health Organization estimates that air pollution causes <strong>7 million premature deaths</strong> every year globally. Yet it remains largely invisible to daily life.
+      </div>
+    </div>
+    <div class="problem-visual">
+      <div class="smog-layers">
+        <p style="font-size:0.85rem;font-weight:500;color:#333;margin-bottom:22px;">Typical Air Quality Index — Lahore</p>
+        <div class="smog-bar">
+          <span class="smog-bar-label">PM2.5</span>
+          <div class="smog-bar-track"><div class="smog-bar-fill bar-bad" style="width:88%"></div></div>
+          <span class="smog-bar-value">388</span>
+        </div>
+        <div class="smog-bar">
+          <span class="smog-bar-label">PM10</span>
+          <div class="smog-bar-track"><div class="smog-bar-fill bar-bad" style="width:75%"></div></div>
+          <span class="smog-bar-value">290</span>
+        </div>
+        <div class="smog-bar">
+          <span class="smog-bar-label">NO₂</span>
+          <div class="smog-bar-track"><div class="smog-bar-fill bar-ok" style="width:52%"></div></div>
+          <span class="smog-bar-value">64</span>
+        </div>
+        <div class="smog-bar">
+          <span class="smog-bar-label">O₃</span>
+          <div class="smog-bar-track"><div class="smog-bar-fill bar-ok" style="width:40%"></div></div>
+          <span class="smog-bar-value">48</span>
+        </div>
+        <div class="smog-bar">
+          <span class="smog-bar-label">Safe</span>
+          <div class="smog-bar-track"><div class="smog-bar-fill bar-good" style="width:20%"></div></div>
+          <span class="smog-bar-value">&lt;50</span>
+        </div>
+        <p style="font-size:0.72rem;color:#889;margin-top:18px;">Values in μg/m³ · Safe limit: AQI &lt; 50</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACTIVITIES -->
+<section id="activities">
+  <div class="section-label">What We Did</div>
+  <h2 class="section-title">Our activities on the ground</h2>
+  <p class="activities-sub">As part of our Civics project, our team took real, tangible action — not just words on paper.</p>
+
+  <div class="cards-grid">
+    <div class="act-card">
+      <span class="act-icon">🌱</span>
+      <h3>Tree Plantation Drive</h3>
+      <p>We organized a tree plantation drive at our school and local community park. Trees are nature's air filters — absorbing CO₂ and releasing clean oxygen.</p>
+      <span class="act-badge">50+ trees planted</span>
+    </div>
+    <div class="act-card">
+      <span class="act-icon">📋</span>
+      <h3>Pamphlet Distribution</h3>
+      <p>Designed and printed educational pamphlets explaining the causes and health effects of air pollution, and distributed them door-to-door in our neighborhood.</p>
+      <span class="act-badge">200+ distributed</span>
+    </div>
+    <div class="act-card">
+      <span class="act-icon">📢</span>
+      <h3>Awareness Campaign</h3>
+      <p>We ran a public awareness campaign with banners, street walks, and speeches to educate people about the dangers of smog and how to reduce it daily.</p>
+      <span class="act-badge">Community-wide</span>
+    </div>
+    <div class="act-card">
+      <span class="act-icon">🎯</span>
+      <h3>School Presentations</h3>
+      <p>Delivered awareness sessions in classrooms, sharing data on Lahore's air quality and encouraging students to take small daily actions for cleaner air.</p>
+      <span class="act-badge">Multiple classes</span>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<section id="impact">
+  <div class="section-label">Our Impact</div>
+  <h2 class="section-title">What we hope to change</h2>
+  <div class="impact-grid">
+    <div class="impact-item">
+      <div class="impact-icon-wrap">🌳</div>
+      <div>
+        <h4>Greener Neighbourhoods</h4>
+        <p>Every tree we plant absorbs up to 22 kg of CO₂ per year, improving local air quality over the long term.</p>
+      </div>
+    </div>
+    <div class="impact-item">
+      <div class="impact-icon-wrap">🧠</div>
+      <div>
+        <h4>Informed Citizens</h4>
+        <p>When people understand the causes of pollution, they make better daily choices — carpooling, less burning, more planting.</p>
+      </div>
+    </div>
+    <div class="impact-item">
+      <div class="impact-icon-wrap">🏃</div>
+      <div>
+        <h4>Healthier Futures</h4>
+        <p>Reducing pollution means fewer respiratory illnesses, especially for children and the elderly who are most vulnerable.</p>
+      </div>
+    </div>
+    <div class="impact-item">
+      <div class="impact-icon-wrap">🤝</div>
+      <div>
+        <h4>Community Action</h4>
+        <p>Civic awareness creates ripple effects. One informed family influences neighbors, workplaces, and local leaders.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="section-label">Behind the Campaign</div>
+  <h2 class="section-title">Meet the team</h2>
+  <p class="team-sub">A group of students who believed that young people can — and must — take action for a cleaner world.</p>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-avatar">👦</div>
+      <h4>Anwaar Ali</h4>
+      <span>Campaign Lead</span>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">👦</div>
+      <h4>Abdullah Usman</h4>
+      <span>Research & Data</span>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">👦</div>
+      <h4>M. Saim</h4>
+      <span>Plantation Drive</span>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">👦</div>
+      <h4>Abdullah Ilyas</h4>
+      <span>Pamphlet Design</span>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">👦</div>
+      <h4>Hamza Iqbal</h4>
+      <span>Outreach & Events</span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="join">
+  <h2>Small actions. Big difference. Start today.</h2>
+  <p>You don't need a project to make a change. Plant a tree. Share the word. Choose clean.</p>
+  <div class="cta-actions">
+    <a href="#activities" class="btn-white">See Our Activities</a>
+    <a href="#problem" class="btn-outline">Learn About Pollution</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>BreatheClean</strong> — A Civics Project by Students</p>
+  <p style="margin-top:8px;">🌿 Together, we can clear the air. For us. For them. For the future.</p>
+</footer>
+
+</body>
+</html>
